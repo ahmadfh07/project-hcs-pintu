@@ -1,0 +1,24 @@
+@base_url = http://localhost:3000
+# http://localhost:3000
+# https://165.22.49.116:3000
+@accessToken = {{signin.response.body.data.accessToken}}
+GET {{base_url}}/
+###
+POST {{base_url}}/admin/create-agent HTTP/1.1
+Authorization: Bearer {{accessToken}}
+content-type: application/json
+
+{
+    "name": "Dummy",
+    "noHp": "081111111111",
+    "rfid": "36115"
+}
+###
+# @name signin
+POST {{base_url}}/auth/signin HTTP/1.1
+content-type: application/json
+
+{ 
+    "email": "user@gmail.com",
+    "password": "12345678"
+}
