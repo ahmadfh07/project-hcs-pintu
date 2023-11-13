@@ -37,9 +37,9 @@ app.get("/", (req, res) => {
   res.send("WebAPI used by hcs-pintu");
 });
 
-//   app.use("/auth", require("./Controller/authRoutes"));
+app.use("/auth", require("./controller/authRoutes"));
 app.use("/admin", require("./controller/adminRoutes"));
-//   app.use("/laborat", require("./Controller/laboratRoutes"));
+app.use("/command", require("./controller/commandRoutes"));
 //   app.use("/pemantauan", require("./Controller/pemantauanRoutes"));
 //   app.use("/info", require("./Controller/infoRoutes"));
 

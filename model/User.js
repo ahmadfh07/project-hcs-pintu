@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
-  nohp: {
+  noHp: {
     type: String,
     unique: true,
     required: true,
