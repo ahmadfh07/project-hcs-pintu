@@ -31,7 +31,7 @@ content-type: application/json
 {
     "name": "Dummy2",
     "noHp": "081111111111",
-    "rfid": "36115"
+    "rfid": "36775"
 }
 ###
 POST {{base_url}}/command/register-door HTTP/1.1

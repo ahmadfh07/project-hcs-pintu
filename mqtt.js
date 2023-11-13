@@ -26,7 +26,6 @@ client.on("message", async (topic, message) => {
     const { rfid, doorNumber, status, statusBool } = JSON.parse(messageString);
     console.log({ rfid, doorNumber, status, statusBool });
     const agent = await Agent.findOne({ rfid });
-    console.log(agent);
     if (agent) {
       client.publish(`${topic}/${doorNumber}/${status}`, "1");
       const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: agent.name });
