@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 const { connectDB } = require("./utils/dbConnect");
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 // const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT || 3000;
@@ -13,24 +14,24 @@ const { client } = require("./mqtt");
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cookieParser());
-//   //cors config
-//   const whitelist = process.env.CORS_WHITELIST_COMASEPARATED.split(",");
-//   var corsOptionsDelegate = function (req, callback) {
-//     const corsOptions = {
-//       methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "PATCH"],
-//       allowedHeaders: ["Content-Type", "Authorization"],
-//       exposedHeaders: ["X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"],
-//       credentials: true,
-//     };
-//     const host = req.get("Origin");
-//     if (whitelist.indexOf(host) !== -1) {
-//       corsOptions.origin = host;
-//     } else {
-//       corsOptions.origin = false;
-//     }
-//     callback(null, corsOptions);
-//   };
-//   app.use(cors(corsOptionsDelegate));
+//cors config
+const whitelist = process.env.CORS_WHITELIST_COMASEPARATED.split(",");
+var corsOptionsDelegate = function (req, callback) {
+  const corsOptions = {
+    methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"],
+    credentials: true,
+  };
+  const host = req.get("Origin");
+  if (whitelist.indexOf(host) !== -1) {
+    corsOptions.origin = host;
+  } else {
+    corsOptions.origin = false;
+  }
+  callback(null, corsOptions);
+};
+app.use(cors(corsOptionsDelegate));
 
 // routes
 app.get("/", (req, res) => {
