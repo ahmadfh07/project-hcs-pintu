@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const { connectDB } = require("./utils/dbConnect");
+const { client } = require("./mqtt");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -9,7 +10,6 @@ const cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-const { client } = require("./mqtt");
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));

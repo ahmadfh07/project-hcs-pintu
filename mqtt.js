@@ -8,6 +8,7 @@ const topic = "auth";
 const Agent = require("./model/agent");
 const Door = require("./model/Door");
 const Log = require("./model/Log");
+const Error = require("./model/Error");
 
 client.on("connect", () => {
   client.subscribe(topic, (err) => {
@@ -22,7 +23,7 @@ client.on("connect", () => {
 
 client.on("message", async (topic, message) => {
   try {
-    const messageString = message.toString();
+    const messageString = message.toString("utf8");
     const { rfid, doorNumber, status, statusBool } = JSON.parse(messageString);
     console.log({ rfid, doorNumber, status, statusBool });
     const agent = await Agent.findOne({ rfid });
@@ -32,13 +33,9 @@ client.on("message", async (topic, message) => {
       const newLog = await Log.insertMany({ doorNumber, statusBool, agent: agent.name });
     }
     if (!agent) client.publish(`${topic}/${doorNumber}/${status}`, "0");
-    // if (messageString == "buzzer") client.publish(topic, "buzzer juga");
   } catch (err) {
-    client.publish(topic, err.message);
-    client.end();
+    const newError = await Error.insertMany({ error: err });
   }
-
-  //   client.end();
 });
 
 module.exports = { client };
