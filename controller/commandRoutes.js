@@ -23,6 +23,17 @@ router.post("/register-door", async (req, res) => {
   }
 });
 
+router.delete("/delete-door", async (req, res) => {
+  try {
+    const deleteDoor = await Door.findByIdAndDelete(req.query.doorid);
+    const response = new createSuccess(false, "Door successully deleted");
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    const response = new createError(true, err.message);
+    res.status(httpStatus.BAD_REQUEST).json(response);
+  }
+});
+
 router.post("/toggle-door-status", async (req, res) => {
   try {
     const { doorNumber, statusBool, status } = req.query;

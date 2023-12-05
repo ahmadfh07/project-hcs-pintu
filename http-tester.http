@@ -39,13 +39,21 @@ content-type: application/json
     "rfid": "36775"
 }
 ###
+DELETE {{base_url}}/admin/delete-agent?agentid=655259a8f04cbd76e59cd30e HTTP/1.1
+Authorization: Bearer {{accessToken}}
+content-type: application/json
+###
 POST {{base_url}}/command/register-door HTTP/1.1
 Authorization: Bearer {{accessToken}}
 content-type: application/json
 
 {
-    "doorNumber": "5.4.1"
+    "doorNumber": "5.4.2"
 }
+###
+DELETE {{base_url}}/command/delete-door?doorid=656ea6ac3ee7a4f5b2090336 HTTP/1.1
+Authorization: Bearer {{accessToken}}
+content-type: application/json
 ###
 POST {{base_url}}/command/toggle-door-status?doorNumber=5.4.1&status=open&statusBool=1 HTTP/1.1
 Authorization: Bearer {{accessToken}}

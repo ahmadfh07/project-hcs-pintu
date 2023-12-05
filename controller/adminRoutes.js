@@ -60,10 +60,21 @@ router.post(
   }
 );
 
-router.post("/create-agent", (req, res) => {
+router.post("/create-agent", async (req, res) => {
   try {
-    const newAgent = Agent.insertMany(req.body);
+    const newAgent = await Agent.insertMany(req.body);
     const response = new createSuccess(false, "New Agent successully created");
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    const response = new createError(true, err.message);
+    res.status(httpStatus.BAD_REQUEST).json(response);
+  }
+});
+
+router.delete("/delete-agent", async (req, res) => {
+  try {
+    const deleteAgent = await Agent.findByIdAndDelete(req.query.agentid);
+    const response = new createSuccess(false, "Agent successully deleted");
     res.status(httpStatus.OK).json(response);
   } catch (err) {
     const response = new createError(true, err.message);
