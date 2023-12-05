@@ -1,4 +1,4 @@
-@base_url = http://165.22.49.116:3000
+@base_url = http://localhost:3000
 # http://localhost:3000
 # https://165.22.49.116:3000
 @accessToken = {{signin.response.body.data.accessToken}}
@@ -50,3 +50,12 @@ content-type: application/json
 POST {{base_url}}/command/toggle-door-status?doorNumber=5.4.1&status=open&statusBool=1 HTTP/1.1
 Authorization: Bearer {{accessToken}}
 content-type: application/json
+###
+GET {{base_url}}/info/get-doors
+Authorization: Bearer {{accessToken}}
+Content-Type: application/application/json
+###
+GET {{base_url}}/info/get-agents
+Authorization: Bearer {{accessToken}}
+Content-Type: application/application/json
+

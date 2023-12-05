@@ -41,8 +41,8 @@ app.get("/", (req, res) => {
 app.use("/auth", require("./controller/authRoutes"));
 app.use("/admin", require("./controller/adminRoutes"));
 app.use("/command", require("./controller/commandRoutes"));
-//   app.use("/pemantauan", require("./Controller/pemantauanRoutes"));
-//   app.use("/info", require("./Controller/infoRoutes"));
+// app.use("/pemantauan", require("./Controller/pemantauanRoutes"));
+app.use("/info", require("./controller/infoRoutes"));
 
 app.use((req, res) => {
   res.status(404).json({ message: "page not found" });
