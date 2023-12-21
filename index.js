@@ -35,7 +35,7 @@ app.use(cors(corsOptionsDelegate));
 
 // routes
 app.get("/", (req, res) => {
-  res.send("WebAPI used by door-monitoring");
+  res.send("WebAPI used by hcs-pintu");
 });
 
 app.use("/auth", require("./controller/authRoutes"));
