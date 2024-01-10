@@ -3,7 +3,10 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const mqtt = require("mqtt");
-const client = mqtt.connect(process.env.BROKER_URL);
+const client = mqtt.connect(`mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`, {
+  username: process.env.MQTT_USERNAME,
+  password: process.env.MQTT_PASSWORD,
+});
 const topic = "auth";
 const Agent = require("./model/agent");
 const Door = require("./model/Door");

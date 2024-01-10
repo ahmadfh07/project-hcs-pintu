@@ -1,6 +1,6 @@
-@base_url = http://localhost:3000
+@base_url = http://s1.azizfath.com:3000
 # http://localhost:3000
-# https://165.22.49.116:3000
+# http://165.22.49.116:3000
 @accessToken = {{signin.response.body.data.accessToken}}
 GET {{base_url}}/
 ###
@@ -51,7 +51,7 @@ content-type: application/json
     "doorNumber": "5.4.2"
 }
 ###
-DELETE {{base_url}}/command/delete-door?doorid=656ea6ac3ee7a4f5b2090336 HTTP/1.1
+DELETE {{base_url}}/command/delete-door?doorid=656ea7e97e75c11986628e22 HTTP/1.1
 Authorization: Bearer {{accessToken}}
 content-type: application/json
 ###
