@@ -39,10 +39,9 @@ router.post("/toggle-door-status", async (req, res) => {
     const { doorNumber, statusBool, status } = req.query;
     const door = await Door.findOne({ doorNumber });
     if (!door) throw new Error("Door number not found");
-    client.publish(`auth/${doorNumber}/${status}`, "1", (err) => {
-      if (err) throw new Error(err);
-    });
-    const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: req.user.name });
+    console.log(`auth/${doorNumber}/${status}`);
+    client.publish(`auth/${doorNumber}/${status}`, "1");
+    const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: req.user.name, lastAccessed: Date.now() });
     const newLog = await Log.insertMany({ doorNumber: door.doorNumber, statusBool, agent: req.user.name });
     response = new createSuccess(false, `Toggle message succesfully sended`);
     res.status(httpStatus.OK).json(response);

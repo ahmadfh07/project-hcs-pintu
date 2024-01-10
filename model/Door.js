@@ -15,6 +15,11 @@ const doorSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+
+  lastAccessed: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 const Door = mongoose.model("Door", doorSchema);

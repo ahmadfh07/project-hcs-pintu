@@ -32,7 +32,7 @@ client.on("message", async (topic, message) => {
     const agent = await Agent.findOne({ rfid });
     if (agent) {
       client.publish(`${topic}/${doorNumber}/${status}`, "1");
-      const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: agent.name });
+      const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: agent.name, lastAccessed: Date.now() });
       const newLog = await Log.insertMany({ doorNumber, statusBool, agent: agent.name });
     }
     if (!agent) client.publish(`${topic}/${doorNumber}/${status}`, "0");
