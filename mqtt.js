@@ -30,7 +30,7 @@ client.on("message", async (topic, message) => {
     const { rfid, doorNumber, deviceId, targetStatus, targetStatusBool } = JSON.parse(messageString);
     // console.log({ rfid, doorNumber, status, statusBool });
     const agent = await Agent.findOne({ rfid });
-    const message = { targetStatus, authStatus: 0 };
+    const message = { targetStatus, targetStatusBool, authStatus: 0 };
     if (agent) {
       message.authStatus = 1;
       client.publish(`${topic}/${doorNumber}`, JSON.stringify(message));
