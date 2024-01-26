@@ -6,6 +6,15 @@ const logSchema = new mongoose.Schema({
     required: true,
   },
 
+  deviceId: {
+    type: String,
+    required: true,
+  },
+
+  targetStatus: {
+    type: Boolean,
+  },
+
   statusBool: {
     type: Boolean,
   },

@@ -27,15 +27,17 @@ client.on("connect", () => {
 client.on("message", async (topic, message) => {
   try {
     const messageString = message.toString("utf8");
-    const { rfid, doorNumber, status, statusBool } = JSON.parse(messageString);
-    console.log({ rfid, doorNumber, status, statusBool });
+    const { rfid, doorNumber, deviceId, targetStatus, targetStatusBool } = JSON.parse(messageString);
+    // console.log({ rfid, doorNumber, status, statusBool });
     const agent = await Agent.findOne({ rfid });
+    const message = { targetStatus, authStatus: 0 };
     if (agent) {
-      client.publish(`${topic}/${doorNumber}/${status}`, "1");
-      const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: agent.name, lastAccessed: Date.now() });
-      const newLog = await Log.insertMany({ doorNumber, statusBool, agent: agent.name });
+      message.authStatus = 1;
+      client.publish(`${topic}/${doorNumber}`, JSON.stringify(message));
+      const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool: targetStatusBool, latestAgent: agent.name, lastAccessed: Date.now() });
+      const newLog = await Log.insertMany({ doorNumber, deviceId, statusBool: targetStatusBool, agent: agent.name });
     }
-    if (!agent) client.publish(`${topic}/${doorNumber}/${status}`, "0");
+    if (!agent) client.publish(`${topic}/${doorNumber}`, JSON.stringify(message));
   } catch (err) {
     const newError = await Error.insertMany({ error: err });
   }

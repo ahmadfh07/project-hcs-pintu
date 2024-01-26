@@ -7,6 +7,7 @@ const httpStatus = require("http-status");
 const User = require("../model/User");
 const Door = require("../model/Door");
 const Agent = require("../model/agent");
+const Log = require("../model/Log");
 const { authToken } = require("../utils/authToken");
 
 router.use(authToken());
@@ -26,6 +27,17 @@ router.get("/get-doors", async (req, res) => {
   try {
     const doors = await Door.find({});
     response = new createSuccess(false, "Doors list succesfully retrieved", doors);
+    res.status(httpStatus.OK).json(response);
+  } catch (err) {
+    response = new createError(true, err.message);
+    res.status(httpStatus.BAD_REQUEST).json(response);
+  }
+});
+
+router.get("/get-door-logs", async (req, res) => {
+  try {
+    const logs = await Log.find({ doorNumber: req.query.doorNumber });
+    response = new createSuccess(false, `logs for door`, logs);
     res.status(httpStatus.OK).json(response);
   } catch (err) {
     response = new createError(true, err.message);

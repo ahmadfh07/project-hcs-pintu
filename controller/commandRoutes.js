@@ -42,7 +42,7 @@ router.post("/toggle-door-status", async (req, res) => {
     console.log(`auth/${doorNumber}/${status}`);
     client.publish(`auth/${doorNumber}/${status}`, "1");
     const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool, latestAgent: req.user.name, lastAccessed: Date.now() });
-    const newLog = await Log.insertMany({ doorNumber: door.doorNumber, statusBool, agent: req.user.name });
+    const newLog = await Log.insertMany({ doorNumber: door.doorNumber, deviceId: "Dashboard", statusBool, agent: req.user.name });
     response = new createSuccess(false, `Toggle message succesfully sended`);
     res.status(httpStatus.OK).json(response);
   } catch (err) {

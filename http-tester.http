@@ -67,4 +67,8 @@ Content-Type: application/application/json
 GET {{base_url}}/info/get-agents
 Authorization: Bearer {{accessToken}}
 Content-Type: application/application/json
+###
+GET {{base_url}}/info/get-door-logs?doorNumber=5.4.1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/application/json
 
