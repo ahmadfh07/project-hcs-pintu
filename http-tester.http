@@ -56,7 +56,7 @@ DELETE {{base_url}}/command/delete-door?doorid=656ea7e97e75c11986628e22 HTTP/1.1
 Authorization: Bearer {{accessToken}}
 content-type: application/json
 ###
-POST {{base_url}}/command/toggle-door-status?doorNumber=5.4.1&status=open&statusBool=1 HTTP/1.1
+POST {{base_url}}/command/toggle-door-status?doorNumber=5.4.1&status=close&statusBool=0 HTTP/1.1
 Authorization: Bearer {{accessToken}}
 content-type: application/json
 ###
@@ -68,7 +68,7 @@ GET {{base_url}}/info/get-agents
 Authorization: Bearer {{accessToken}}
 Content-Type: application/application/json
 ###
-GET {{base_url}}/info/get-door-logs?doorNumber=5.4.1
+GET {{base_url}}/info/get-door-logs?doorNumber=5.4.1&page=1
 Authorization: Bearer {{accessToken}}
 Content-Type: application/application/json
 

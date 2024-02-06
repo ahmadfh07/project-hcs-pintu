@@ -5,7 +5,9 @@ const errorSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-
+  deviceId: {
+    type: String,
+  },
   agent: {
     type: String,
   },

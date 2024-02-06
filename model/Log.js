@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const paginate = require("mongoose-paginate-v2");
 
 const logSchema = new mongoose.Schema({
   doorNumber: {
@@ -28,6 +29,8 @@ const logSchema = new mongoose.Schema({
     default: Date.now(),
   },
 });
+
+logSchema.plugin(paginate);
 
 const Log = mongoose.model("Log", logSchema);
 module.exports = Log;
