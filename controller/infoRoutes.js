@@ -36,7 +36,7 @@ router.get("/get-doors", async (req, res) => {
 
 router.get("/get-door-logs", async (req, res) => {
   try {
-    const logsPaginated = await Log.paginate({ doorNumber: req.query.doorNumber }, { page: req.query.page, limit: 5 });
+    const logsPaginated = await Log.paginate({ doorNumber: req.query.doorNumber }, { page: req.query.page, limit: 5, sort: { date: -1 } });
     const logs = await Log.find({ doorNumber: req.query.doorNumber });
     response = new createSuccess(false, `logs for door`, logsPaginated);
     res.status(httpStatus.OK).json(response);
