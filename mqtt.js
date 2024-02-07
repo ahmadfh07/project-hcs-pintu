@@ -39,7 +39,7 @@ client.on("message", async (topic, message) => {
     }
     if (!agent) client.publish(`${topic}/${doorNumber}`, JSON.stringify(message));
   } catch (err) {
-    const newError = await Error.insertMany({ deviceId: deviceId || "Undefined", deviceNumber: deviceNumber || "Undefined", Agent: Agent || "Undefined", error: err });
+    const newError = await Error.insertMany({ error: err });
   }
 });
 
