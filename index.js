@@ -30,7 +30,9 @@ io.on("connection", function (socket) {
     console.log(reason);
   });
 });
-
+Log.watch().on("change", (data) => {
+  io.emit("toggle", data.fullDocument);
+});
 // mqtt
 client.on("message", async (topic, message) => {
   try {
