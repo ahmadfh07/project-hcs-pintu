@@ -30,16 +30,17 @@ client.on("message", async (topic, message) => {
     const { rfid, doorNumber, deviceId, targetStatus, targetStatusBool } = JSON.parse(messageString);
     // console.log({ rfid, doorNumber, status, statusBool });
     const agent = await Agent.findOne({ rfid });
-    const message = { targetStatus, targetStatusBool, authStatus: 0 };
+    const response = { targetStatus, targetStatusBool, authStatus: 0 };
     if (agent) {
-      message.authStatus = 1;
-      client.publish(`${topic}/${doorNumber}`, JSON.stringify(message));
+      response.authStatus = 1;
+      client.publish(`${topic}/${doorNumber}`, JSON.stringify(response));
       const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool: targetStatusBool, latestAgent: agent.name, lastAccessed: Date.now() });
       const newLog = await Log.insertMany({ doorNumber, deviceId, statusBool: targetStatusBool, agent: agent.name });
     }
-    if (!agent) client.publish(`${topic}/${doorNumber}`, JSON.stringify(message));
+    if (!agent) client.publish(`${topic}/${doorNumber}`, JSON.stringify(response));
   } catch (err) {
     const newError = await Error.insertMany({ error: err });
+    // console.log(err);
   }
 });
 
