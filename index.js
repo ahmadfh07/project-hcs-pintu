@@ -3,6 +3,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 const { connectDB } = require("./utils/dbConnect");
 const { client } = require("./mqtt");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -10,6 +12,18 @@ const cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  /* options */
+});
+
+io.on("connection", function (socket) {
+  console.log(socket.id);
+
+  socket.on("disconnect", (reason) => {
+    console.log(reason);
+  });
+});
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,7 +63,7 @@ app.use((req, res) => {
 });
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
+  httpServer.listen(PORT, () => {
     console.log(`Express server listening on port ${PORT} in ${app.settings.env} mode`);
   });
 });
