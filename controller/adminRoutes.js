@@ -71,6 +71,46 @@ router.post("/create-agent", async (req, res) => {
   }
 });
 
+router.post(
+  "/edit-agent",
+  [
+    body("name", "Please input correct format of an email")
+      .isString()
+      .custom(async (value, { req }) => {
+        const agent = await Agent.findOne({ name: value });
+        const oldName = agent?.id === req.query.agentid;
+        if (agent && !oldName) {
+          throw new Error("Name already registered");
+        }
+      }),
+    body("noHp", "Incorrect format")
+      .isMobilePhone("id-ID")
+      .custom(async (value, { req }) => {
+        const agent = await Agent.findOne({ noHp: value });
+        const oldNoHp = agent?.id === req.query.agentid;
+        if (agent && !oldNoHp) {
+          throw new Error("Phone number already registered");
+        }
+      }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req).array();
+    try {
+      if (errors.length !== 0) {
+        response = new createError(true, errors);
+        res.status(httpStatus.BAD_REQUEST).json(response);
+        return;
+      }
+      const editAgent = await Agent.findByIdAndUpdate(req.query.agentid, req.body);
+      response = new createSuccess(false, "Agent successfully edited", editAgent);
+      res.status(httpStatus.OK).json(response);
+    } catch (err) {
+      const response = new createError(true, err.message);
+      res.status(httpStatus.BAD_REQUEST).json(response);
+    }
+  }
+);
+
 router.delete("/delete-agent", async (req, res) => {
   try {
     const deleteAgent = await Agent.findByIdAndDelete(req.query.agentid);
