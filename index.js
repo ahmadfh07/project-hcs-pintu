@@ -8,6 +8,7 @@ const { Server } = require("socket.io");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const hpp = require("hpp");
 
 const Agent = require("./model/agent");
 const Door = require("./model/Door");
@@ -59,9 +60,11 @@ client.on("message", async (topic, message) => {
   }
 });
 
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: "1kb" }));
+app.use(express.urlencoded({ extended: true, limit: "1kb" }));
+app.use(hpp());
 // app.use(cookieParser());
+
 //cors config
 const whitelist = process.env.CORS_WHITELIST_COMASEPARATED.split(",");
 var corsOptionsDelegate = function (req, callback) {
