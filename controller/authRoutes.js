@@ -6,8 +6,14 @@ const bcrypt = require("../utils/bcrypt");
 const httpStatus = require("http-status");
 const User = require("../model/User");
 const { createError, createSuccess } = require("../model/response");
+const bouncer = require("express-bouncer")(500, 900000);
 
-router.post("/signin", [check("password", "Password atleast 6 character").isLength({ min: 6 }), body("email", "Please input correct format of an email").isEmail()], async (req, res) => {
+bouncer.blocked = function (req, res, next, remaining) {
+  response = new createError(true, `Too many requests have been made, please wait ${remaining / 1000} seconds`);
+  res.status(httpStatus.TOO_MANY_REQUESTS).json(response);
+};
+
+router.post("/signin", bouncer.block, [check("password", "Password atleast 6 character").isLength({ min: 6 }), body("email", "Please input correct format of an email").isEmail()], async (req, res) => {
   let response;
   const { email, password } = req.body;
   const errors = validationResult(req).array();
@@ -24,6 +30,7 @@ router.post("/signin", [check("password", "Password atleast 6 character").isLeng
       if (!isValidPassword) {
         throw new Error("Incorrect password");
       }
+      bouncer.reset(req);
       const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_SECRET_KEY, { expiresIn: "12h" });
       const data = { accessToken };
       response = new createSuccess(false, "Succesfully Signed in", data);

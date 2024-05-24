@@ -1,4 +1,4 @@
-@base_url = http://localhost:3000
+@base_url = http://s1.azizfath.com:3000
 # http://localhost:3000
 # http://165.22.49.116:3000
 # http://s1.azizfath.com:3000
