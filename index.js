@@ -32,7 +32,7 @@ const io = new Server(httpServer, {
 //   });
 // });
 Log.watch().on("change", (data) => {
-  client.publish("toggle", data.fullDocument);
+  client.publish("toggle", data.fullDocument.toString());
 });
 // mqtt
 client.on("message", async (topic, message) => {

@@ -23,6 +23,7 @@ jobs:
             cd /home/ahmadfaqih/project-hcs-pintu
             git pull origin main
             git status
+            podman build -t ahmadfh07/hcs-pintu:0.0.1 .
             npm install
             pm2 reload hcs-pintu
             pm2 restart hcs-pintu
