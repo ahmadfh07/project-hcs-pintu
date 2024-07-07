@@ -32,14 +32,14 @@ const io = new Server(httpServer, {
 //   });
 // });
 Log.watch().on("change", (data) => {
-  client.publish("toggle", data.fullDocument.toString());
+  client.publish("toggle", JSON.stringify(data.fullDocument));
 });
 // mqtt
 client.on("message", async (topic, message) => {
   try {
     if (topic === "rfid") {
       // io.emit("rfid", message.toString("utf8"));
-      client.publish("rfid", message.toString("utf8"));
+      // client.publish("rfid", message.toString("utf8"));
     }
     if (topic === "auth") {
       const messageString = message.toString("utf8");
