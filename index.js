@@ -23,15 +23,16 @@ const io = new Server(httpServer, {
   /* options */
 });
 
-// socket.io
-// io.on("connection", function (socket) {
-//   console.log(socket.id);
+// socket.io;
+io.on("connection", function (socket) {
+  console.log(socket.id);
 
-//   socket.on("disconnect", (reason) => {
-//     console.log(reason);
-//   });
-// });
+  socket.on("disconnect", (reason) => {
+    console.log(reason);
+  });
+});
 Log.watch().on("change", (data) => {
+  io.emit("toggle", data.fullDocument);
   client.publish("toggle", JSON.stringify(data.fullDocument));
 });
 // mqtt
