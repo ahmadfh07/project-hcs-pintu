@@ -24,21 +24,22 @@ const io = new Server(httpServer, {
 });
 
 // socket.io
-io.on("connection", function (socket) {
-  console.log(socket.id);
+// io.on("connection", function (socket) {
+//   console.log(socket.id);
 
-  socket.on("disconnect", (reason) => {
-    console.log(reason);
-  });
-});
+//   socket.on("disconnect", (reason) => {
+//     console.log(reason);
+//   });
+// });
 Log.watch().on("change", (data) => {
-  io.emit("toggle", data.fullDocument);
+  client.publish("toggle", data.fullDocument);
 });
 // mqtt
 client.on("message", async (topic, message) => {
   try {
     if (topic === "rfid") {
-      io.emit("rfid", message.toString("utf8"));
+      // io.emit("rfid", message.toString("utf8"));
+      client.publish("rfid", message.toString("utf8"));
     }
     if (topic === "auth") {
       const messageString = message.toString("utf8");
