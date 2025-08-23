@@ -1,2 +1,6 @@
 NODE_MODULES
 .env
+*.mqtt
+
+# vscode
+.vscode

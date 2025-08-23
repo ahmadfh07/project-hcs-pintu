@@ -13,7 +13,6 @@ const topic2 = "rfid";
 client.on("connect", () => {
   client.subscribe(topic, (err) => {
     if (!err) {
-      //   client.publish(topic, "Hello mqtt");
       console.log(`MQTT Broker connected, topic : ${topic} `);
       return;
     }

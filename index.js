@@ -52,7 +52,7 @@ client.on("message", async (topic, message) => {
         response.authStatus = 1;
         client.publish(`${topic}/${doorNumber}`, JSON.stringify(response));
         const doorUpdated = await Door.findOneAndUpdate({ doorNumber }, { statusBool: targetStatusBool, latestAgent: agent.name, lastAccessed: Date.now() });
-        const newLog = await Log.insertMany({ doorNumber, deviceId, statusBool: targetStatusBool, agent: agent.name });
+        const newLog = await Log.insertMany({ doorNumber, deviceId, statusBool: targetStatusBool, agent: agent.name, date: Date.now() });
       }
       if (!agent) client.publish(`${topic}/${doorNumber}`, JSON.stringify(response));
     }
